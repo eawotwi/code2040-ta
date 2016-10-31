@@ -12,6 +12,7 @@ url = 'http://challenge.code2040.org/api/reverse'
 data = {'token' : 'db9598ec6591292144a2f5ce33caca26'}
 r = requests.post(url, json=data)
 
+# reverse string #
 original_string = r.text
 reversed_string = reverse(original_string)
 
