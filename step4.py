@@ -1,23 +1,19 @@
 import requests
 
-# Reverse string method #
-def remove_strings_with_prefix(prefix, array):
-	new_array = []
-	for string in array:
-		if (string.startswith(prefix) == False):
-			new_array.append(string) 
-
-	return new_array
-
 # HTTP POST request #
 url = 'http://challenge.code2040.org/api/prefix'
 data = {'token' : 'db9598ec6591292144a2f5ce33caca26'}
 response = requests.post(url, json=data)
 
 dictionary = response.json()
+prefix = dictionary['prefix']
+array = dictionary['array']
 
-# determine index of needle in haystack #
-new_array = remove_strings_with_prefix(dictionary['prefix'], dictionary['array']) 
+# remove strings with certain prefix
+new_array = []
+for string in array:
+	if not (string.startswith(prefix)):
+		new_array.append(string)
 
 # HTTP POST request #
 url = 'http://challenge.code2040.org/api/prefix/validate'
