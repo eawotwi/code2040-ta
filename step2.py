@@ -1,18 +1,22 @@
 import requests
+from credentials import base_url, registration_details
 
-# HTTP POST request #
-url = 'http://challenge.code2040.org/api/reverse'
-data = {'token' : 'db9598ec6591292144a2f5ce33caca26'}
-r = requests.post(url, json=data)
+"""
+Step 2: Reverse a string
+"""
 
-# reverse string #
-original_string = r.text
-reversed_string = original_string[::-1] #reverse string using extended slice operator
+def reverse_string(string):
+	reversed_string = string[::-1]
+	return reversed_string
 
-# HTTP POST request #
-url = 'http://challenge.code2040.org/api/reverse/validate'
+data = {'token' : registration_details['token']}
+response = requests.post(base_url + 'reverse', json = data)
+
+original_string = response.text
+reversed_string = reverse_string(original_string)
+
 data = {
-	'token' : 'db9598ec6591292144a2f5ce33caca26',
+	'token' : registration_details['token'],
 	'string' : reversed_string
 }
-requests.post(url, json=data)
+requests.post(base_url + 'reverse/validate', json = data)

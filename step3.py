@@ -1,21 +1,24 @@
 import requests
+from credentials import base_url, registration_details
 
-# HTTP POST request #
-url = 'http://challenge.code2040.org/api/haystack'
-data = {'token' : 'db9598ec6591292144a2f5ce33caca26'}
-response = requests.post(url, json=data)
+"""
+Step 3: Locate the index of the needle in the haystack array
+"""
+
+def locate_needle(needle, haystack):
+	needle_index = haystack.index(needle)
+	return needle_index
+
+data = {'token' : registration_details['token']}
+response = requests.post(base_url + 'haystack', json = data)
 
 dictionary = response.json()
 haystack = dictionary['haystack']
 needle = dictionary['needle']
+needle_index = locate_needle(needle, haystack)
 
-# determine index of needle in haystack #
-needle_index = haystack.index(needle)
-
-# HTTP POST request #
-url = 'http://challenge.code2040.org/api/haystack/validate'
 data = {
-	'token' : 'db9598ec6591292144a2f5ce33caca26',
+	'token' : registration_details['token'],
 	'needle' : needle_index
 }
-requests.post(url, json=data)
+requests.post(base_url + 'haystack/validate', json = data)

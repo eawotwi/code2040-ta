@@ -1,24 +1,27 @@
 import requests
+from credentials import base_url, registration_details
 
-# HTTP POST request #
-url = 'http://challenge.code2040.org/api/prefix'
-data = {'token' : 'db9598ec6591292144a2f5ce33caca26'}
-response = requests.post(url, json=data)
+"""
+Step 4: Remove string in array with a certain prefix
+"""
+
+def remove_strings_with_prefix(prefix, array):
+	new_array = []
+	for string in array:
+		if not (string.startswith(prefix)):
+			new_array.append(string)
+	return new_array
+
+data = {'token' : registration_details['token']}
+response = requests.post(base_url + 'prefix', json = data)
 
 dictionary = response.json()
 prefix = dictionary['prefix']
 array = dictionary['array']
+new_array = remove_strings_with_prefix(prefix, array)
 
-# remove strings with certain prefix
-new_array = []
-for string in array:
-	if not (string.startswith(prefix)):
-		new_array.append(string)
-
-# HTTP POST request #
-url = 'http://challenge.code2040.org/api/prefix/validate'
 data = {
-	'token' : 'db9598ec6591292144a2f5ce33caca26',
+	'token' : registration_details['token'],
 	'array' : new_array
 }
-requests.post(url, json=data)
+requests.post(base_url + 'prefix/validate', json = data)
