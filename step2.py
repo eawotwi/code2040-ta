@@ -1,22 +1,24 @@
-import requests
-from credentials import base_url, registration_details
-
 """
 Step 2: Reverse a string
 """
+
+import requests
+import post_request
+from credentials import base_url, registration_details
 
 def reverse_string(string):
 	reversed_string = string[::-1]
 	return reversed_string
 
-data = {'token' : registration_details['token']}
-response = requests.post(base_url + 'reverse', json = data)
+def main():
+	specific_endpoint = 'reverse'
+	response = post_request.retrieval(specific_endpoint)
 
-original_string = response.text
-reversed_string = reverse_string(original_string)
+	original_string = response.text
+	reversed_string = reverse_string(original_string)
 
-data = {
-	'token' : registration_details['token'],
-	'string' : reversed_string
-}
-requests.post(base_url + 'reverse/validate', json = data)
+	return_value = {'string' : reversed_string}
+	post_request.validation(specific_endpoint, return_value)
+
+if __name__ == '__main__':
+    main()

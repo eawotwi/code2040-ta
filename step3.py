@@ -1,24 +1,26 @@
-import requests
-from credentials import base_url, registration_details
-
 """
 Step 3: Locate the index of the needle in the haystack array
 """
 
-def locate_needle(needle, haystack):
+import requests
+import post_request
+from credentials import base_url, registration_details
+
+def locate_needle(needle_in_haystack_dict):
+	haystack = needle_in_haystack_dict['haystack']
+	needle = needle_in_haystack_dict['needle']
 	needle_index = haystack.index(needle)
 	return needle_index
 
-data = {'token' : registration_details['token']}
-response = requests.post(base_url + 'haystack', json = data)
+def main():
+	specific_endpoint = 'haystack'
+	response = post_request.retrieval(specific_endpoint)
 
-dictionary = response.json()
-haystack = dictionary['haystack']
-needle = dictionary['needle']
-needle_index = locate_needle(needle, haystack)
+	needle_in_haystack_dict = response.json()
+	needle_index = locate_needle(needle_in_haystack_dict)
 
-data = {
-	'token' : registration_details['token'],
-	'needle' : needle_index
-}
-requests.post(base_url + 'haystack/validate', json = data)
+	return_value = {'needle' : needle_index}
+	post_request.validation(specific_endpoint, return_value)
+
+if __name__ == '__main__':
+    main()
