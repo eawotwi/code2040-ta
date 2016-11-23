@@ -1,0 +1,3 @@
+Git will not track these file types 
+
+*.pyc
